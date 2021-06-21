@@ -1,0 +1,64 @@
+
+配置阿里云
+	阿里云高校计划
+		https://developer.aliyun.com/adc/student/
+	# root用户登录
+	$ 普通用户登录
+	mysql> 进入到mysql里面了
+	> window终端
+	> ssh root@47.94.46.113 通过ssh命令连接阿里云
+
+	1、root用户分配普通用户
+		# adduser  添加普通用户
+		# userdel zhangsan  删除zhangsan普通用户
+		cd /home   进入指定目录
+		ls         查看当前目录下所有的文件以及文件夹
+		su zhangsan 切换用户登录 
+		mkdir test 创建文件夹
+		rmdir test 删除空文件夹
+		rm -r test 强制删除test文件夹 
+	2、安装apache2
+		apt update  更新软件源
+		apt install apache2
+		/var/www/html 阿帕奇服务器的部署目录
+	3、安装java环境 jdk
+		apt install default-jdk
+		或
+		apt install openjdk-8-jre-headless
+		
+		测试
+		java -version
+		-> jdk version -> 1.8...
+	4、安装mysql
+		apt install mysql-server-5.7
+		配置mysql
+			1. vi /etc/mysql//mysql.conf.d/mysqld.cnf
+			2. 找到bind-address并修改
+				按i进入插入模式
+				bind-address = 127.0.0.1
+				修改为->
+				bind-address = 0.0.0.0
+			3. :wq进入底行模式，保存并退出
+
+			vi编辑器有3中模式
+				命令行模式
+				底行模式
+				插入模式 按i进入 
+			4.修改root用户的host权限
+				mysql -uroot -p
+
+				mysql> use mysql
+				mysql> select User,Host from user;
+				mysql> update user set host='%' where user='root';
+
+				修改完毕后重启mysql
+				service mysql restart  
+	5.运行jar包
+		持续运行jar包
+			nohup java -jar agriculture-portal-0.0.1-SNAPSHOT.jar &
+		查看进程号
+			ps -ef | grep jar
+		结束进程
+			kill -9 390(390代表你想要结束进程号)
+		测试swagger
+			http://47.102.45.195:8009/swagger-ui.html
