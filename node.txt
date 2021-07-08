@@ -1,0 +1,33 @@
+1.修改基路径
+	.env.development
+	.env.production
+		两个文件中将原VUE_APP_BASE_API注释掉，替换成不是的接口基路径（修改完需要重启项目才会生效）
+			# VUE_APP_BASE_API = '/prod-api'
+			VUE_APP_BASE_API = 'http://47.94.46.113:8004'
+2.注释mock
+	main.js文件的26-29行，注释掉
+3.修改登录接口路径
+	打开src/api/user.js
+		将里面封装的login、logout、getInfo三个方法的url替换成swagger中url地址（把/vue-admin-template删掉就行）
+4.修改request文件
+	src/utils/request.js 的第22行，将  X-Token  改成  Authorization
+						   第49行，将res.code !== 20000  改成  res.status !== 200
+5.修改登录默认用户名密码
+	src/views/login/index.vue  
+		76行loginForm
+		80行 loginRules: {
+       			 username: [{ required: true, trigger: 'blur }],
+        			password: [{ required: true, trigger: 'blur' }]
+      		        }
+		将对象中的validator属性名及属性值去掉	
+6.登录进去之后，首页的名称以及右上角的头像
+	src/store/modules/user.js
+		第56行，封装的getInfo方法
+			const { name, avatar } = data
+        	commit('SET_NAME', name)
+        	commit('SET_AVATAR', avatar)
+        	改成 =>
+
+        	const { username, userFace } = data
+        	commit('SET_NAME', username)
+        	commit('SET_AVATAR', userFace)
